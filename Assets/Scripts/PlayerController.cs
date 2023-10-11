@@ -6,12 +6,17 @@ public class PlayerController : MonoBehaviour
 {
 
     //private variables
-    private float speed = 0;
+    private float speed = 15;
     private float turnSpeed = 15;
     private float jumpSpeed = 10;
     private float horizontalInput;
     private float verticalInput;
     private float jumpInput;
+    public string inputID;
+
+    public Camera mainCam;
+    public Camera hoodCam;
+    public KeyCode switchKey;
 
 
     // Start is called before the first frame update
@@ -25,19 +30,14 @@ public class PlayerController : MonoBehaviour
     {
 
         // player input
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal" + inputID);
+        verticalInput = Input.GetAxis("Vertical" + inputID);
         jumpInput = Input.GetAxis("Jump");
         
 
 
         // change speed depending on player input
-        if (Input.GetKeyDown("w")) {
-            speed = 10;
-        }
-        if (Input.GetKeyUp("w")) {
-            speed = 0;
-        }
+
 
         // uses input to move vehicle back or forwad
         transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
@@ -51,6 +51,12 @@ public class PlayerController : MonoBehaviour
 
         // jumping input for funs.
         transform.Translate(Vector3.up * Time.deltaTime * jumpSpeed * jumpInput);
+
+        if (Input.GetKeyDown(switchKey))
+        {
+            mainCam.enabled = !mainCam.enabled;
+            hoodCam.enabled = !hoodCam.enabled;
+        }
 
 
     }
